@@ -1,0 +1,11 @@
+RuipuBattery    KEYWORD1
+unlock  KEYWORD2
+readStatus  KEYWORD2
+rawPackVoltage  KEYWORD2
+rawLowestVoltage  KEYWORD2
+rawHighestVoltage  KEYWORD2
+rawPackCurrent  KEYWORD2
+packVoltage  KEYWORD2
+packCurrent  KEYWORD2
+lowestVoltage  KEYWORD2
+highestVoltage  KEYWORD2
