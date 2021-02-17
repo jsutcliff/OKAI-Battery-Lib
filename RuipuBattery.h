@@ -9,27 +9,35 @@
 
 #include "Arduino.h"
 
-class RuipuBattery {
-  public:
-    RuipuBattery(Stream *stream);
-    void unlock();
-    void readStatus();
-    
-    uint16_t rawPackVoltage();
-    uint16_t rawLowestVoltage();
-    uint16_t rawHighestVoltage();
-    int16_t rawPackCurrent();
+class RuipuBattery
+{
+public:
+  RuipuBattery(Stream *stream);
+  void unlock();
+  void reset();
+  bool read();
 
-    float packVoltage();
-    float packCurrent();
-    float lowestVoltage();
-    float highestVoltage();
-    
-  private:
-    byte getCRC(const byte *data, byte len);
-    Stream *_stream;
-    uint16_t _packVoltage, _lowCell, _highCell;
-    int16_t _packCurrent;
+  byte *buf();
+
+  uint16_t rawVoltage();
+  uint16_t rawLow();
+  uint16_t rawHigh();
+  int16_t rawCurrent();
+
+  uint8_t soc();
+  uint8_t maxTemp();
+  uint8_t minTemp();
+
+  float voltage();
+  float current();
+  float low();
+  float high();
+
+private:
+  byte crc(const byte *data, byte len);
+  Stream *_stream;
+  uint8_t _bytesRead;
+  byte _buf[36];
 };
 
 #endif
