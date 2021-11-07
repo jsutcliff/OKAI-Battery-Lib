@@ -19,6 +19,13 @@ public:
 
   byte *buf();
 
+  typedef enum ChargerState{
+    DISCHARGING,
+    BEGIN_CHARGING,
+    CHARGING,
+    INVALID
+  };
+
   uint16_t rawVoltage();
   uint16_t rawLow();
   uint16_t rawHigh();
@@ -32,6 +39,22 @@ public:
   float current();
   float low();
   float high();
+
+  uint8_t rawStatus();
+  bool isChargingBulk();
+  bool isCellUndervoltage();
+  bool isChargerOK();
+  bool isChargerDetected();
+  bool isChargeFETEnabled();
+  bool isDischargeFETEnabled();
+
+  uint8_t maxCellTemp();
+  uint8_t avgCellTemp();
+  uint8_t dischargeFETTemp();
+  uint8_t microcontrollerTemp();
+
+  uint16_t chargeCycleCount();
+  ChargerState chargerState();
 
 private:
   byte crc(const byte *data, byte len);
