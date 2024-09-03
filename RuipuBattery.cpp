@@ -158,3 +158,76 @@ uint8_t RuipuBattery::minTemp()
 
   return minTemp;
 }
+
+uint8_t RuipuBattery::rawStatus()
+{
+  return _buf[3];
+}
+
+bool RuipuBattery::isChargingBulk()
+{
+  return (rawStatus() >> 5) & 1;
+}
+
+bool RuipuBattery::isCellUndervoltage()
+{
+  return (rawStatus() >> 4) & 1;
+}
+
+bool RuipuBattery::isChargerOK()
+{
+  return (rawStatus() >> 3) & 1;
+}
+
+bool RuipuBattery::isChargerDetected()
+{
+  return (rawStatus() >> 2) & 1;
+}
+
+bool RuipuBattery::isChargeFETEnabled()
+{
+  return rawStatus() & 1;
+}
+
+bool RuipuBattery::isDischargeFETEnabled()
+{
+  return (rawStatus() >> 1) & 1;
+}
+
+uint8_t RuipuBattery::maxCellTemp()
+{
+  return _buf[7];
+}
+
+uint8_t RuipuBattery::avgCellTemp()
+{
+  return _buf[8];
+}
+
+uint8_t RuipuBattery::dischargeFETTemp()
+{
+  return _buf[9];
+}
+uint8_t RuipuBattery::microcontrollerTemp()
+{
+  return _buf[10];
+}
+
+uint16_t RuipuBattery::chargeCycleCount()
+{
+  return _buf[12] << 8 | _buf[11];
+}
+
+RuipuBattery::ChargerState RuipuBattery::chargerState()
+{
+  switch(_buf[13]){
+    case 0x00:
+      return RuipuBattery::ChargerState::DISCHARGING;
+    case 0x19:
+      return RuipuBattery::ChargerState::BEGIN_CHARGING;
+    case 0x7C:
+      return RuipuBattery::ChargerState::CHARGING;
+    default:
+      return RuipuBattery::ChargerState::INVALID;
+  }
+}
